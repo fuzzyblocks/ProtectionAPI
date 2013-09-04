@@ -84,7 +84,7 @@ public class FlatFileStore implements ProtectionStore {
         return new Flag[0];
     }
 
-    private void toDisk() {
+    public void toDisk() {
         YamlConfiguration regionlist = new YamlConfiguration();
         List<Region> regionsList = new ArrayList<>();
 
