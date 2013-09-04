@@ -75,6 +75,11 @@ public class Region {
         return owner;
     }
 
+    /**
+     * Set the owner of the region
+     *
+     * @param owner Name of the new owner of the region
+     */
     public void setOwner(String owner) {
         this.owner = owner;
     }
@@ -88,6 +93,11 @@ public class Region {
         return members;
     }
 
+    /**
+     * Set the members of a region
+     *
+     * @param members Array of members
+     */
     public void setMembers(String[] members) {
         this.members = members;
     }
