@@ -116,6 +116,28 @@ public class Region {
     }
 
     /**
+     * Set the flags of the region
+     *
+     * @param flags Array of flags
+     */
+    public void setFlags(Flag[] flags) {
+        this.flags = flags;
+    }
+
+    /**
+     * Set a flag of the region
+     *
+     * @param flag Flag to set
+     */
+    public void setFlag(Flag flag) {
+        List<Flag> newFlags = new ArrayList<>();
+        for (Flag f : flags)
+            newFlags.add(f);
+        newFlags.add(flag);
+        this.flags = newFlags.toArray(new Flag[0]);
+    }
+
+    /**
      * Get the world stored in the region
      *
      * @return The world stored in the region

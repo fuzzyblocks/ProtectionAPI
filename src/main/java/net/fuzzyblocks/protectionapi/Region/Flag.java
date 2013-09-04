@@ -26,4 +26,45 @@
 package net.fuzzyblocks.protectionapi.Region;
 
 public class Flag {
+
+    private String flagName;
+    private String desc;
+    private Boolean flagState;
+
+    public Flag(String flagName, String desc, Boolean flagState) {
+        this.flagName = flagName;
+        this.desc = desc;
+        this.flagState = flagState;
+    }
+
+    public Flag(String flagName, Boolean flagState) {
+        this(flagName, "", flagState);
+    }
+
+    /**
+     * Get the name of a Flag
+     *
+     * @return Name of the Flag
+     */
+    public String getFlagName() {
+        return flagName;
+    }
+
+    /**
+     * Get a Flag's description
+     *
+     * @return The Flag's description
+     */
+    public String getDescription() {
+        return desc;
+    }
+
+    /**
+     * Get a Flag's state
+     *
+     * @return The Flag's state
+     */
+    public boolean getFlagState() {
+        return flagState;
+    }
 }
