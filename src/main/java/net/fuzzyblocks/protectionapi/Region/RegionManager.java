@@ -29,7 +29,6 @@ import net.fuzzyblocks.protectionapi.ProtectionAPI;
 import net.fuzzyblocks.protectionapi.storage.FlatFileStore;
 import net.fuzzyblocks.protectionapi.storage.ProtectionStore;
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.util.HashSet;
@@ -60,27 +59,10 @@ public class RegionManager {
     /**
      * Create and store a region with the specified parameters
      *
-     * @param id         ID to create region with
-     * @param owner      Name of the owner to create the region with
-     * @param members    Members to add to the region
-     * @param flags      Flags to add to the region
-     * @param minimumLoc Location of one corner of cuboid
-     * @param maximumLoc Location of the other corner of the cuboid
+     * @param region Region to store
      */
-    public void createRegion(String id, String owner, String[] members, Flag[] flags, Location minimumLoc, Location maximumLoc) {
-        api.debug("Creating region: " + id + " for owner: " + owner);
-        store.storeRegion(new Region(id, owner, members, flags, minimumLoc, maximumLoc));
-    }
-
-    /**
-     * Add members to an already created region
-     *
-     * @param region  Region to add members to
-     * @param members Members to add to the region
-     */
-    public void addMembersToRegion(Region region, String[] members) {
-        api.debug("Adding members: " + members.toString() + " to region: " + region.getId());
-        region.addMembers(members);
+    public void storeRegion(Region region) {
+        api.debug("Storing region: " + region.getId() + " for owner: " + region.getOwner());
         store.storeRegion(region);
     }
 
@@ -96,31 +78,9 @@ public class RegionManager {
         Set<Region> regionsAtPoint = new HashSet();
         for (Object object : regions.values()) {
             Region region = (Region) object;
-            if (regionContainsPoint(region, location))
+            if (region.containsPoint(location))
                 regionsAtPoint.add(region);
-
         }
         return regionsAtPoint;
-    }
-
-    /**
-     * Check whether a region contains a point
-     *
-     * @param region   Region to check
-     * @param location Location to check
-     * @return True if region contains location, else false
-     */
-    public boolean regionContainsPoint(Region region, Location location) {
-        Vector vector = location.toVector();
-        Vector minBoundary = region.getMinBoundary();
-        Vector maxBoundary = region.getMaxBoundary();
-
-        if (location.getWorld() == region.getWorld())
-            if ((maxBoundary.getBlockZ() > vector.getBlockZ()) && (vector.getBlockZ() > minBoundary.getBlockZ()))
-                if ((maxBoundary.getBlockY() > vector.getBlockY()) && (vector.getBlockY() > minBoundary.getBlockY()))
-                    if ((maxBoundary.getBlockX() > vector.getBlockX()) && (vector.getBlockX() > minBoundary.getBlockX()))
-                        //TODO: Optimise checking if region contains point
-                        return true;
-        return false;
     }
 }

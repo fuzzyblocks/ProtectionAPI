@@ -41,33 +41,20 @@ public class Region {
     private String[] members;
     private Flag[] flags;
     private String world;
-    private int minX;
-    private int maxX;
-    private int minY;
-    private int maxY;
-    private int minZ;
-    private int maxZ;
+    private Vector minBoundary;
+    private Vector maxBoundary;
 
-    public Region(String id, String owner, String[] members, Flag[] flags, String world, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+    public Region(String id, String owner, String[] members, Flag[] flags, String world, Vector minBoundary, Vector maxBoundary) {
         this.id = id;
         this.owner = owner;
         this.members = members;
         this.flags = flags;
         this.world = world;
-        this.minX = minX;
-        this.maxX = maxX;
-        this.minY = minY;
-        this.maxY = maxY;
-        this.minZ = minZ;
-        this.maxZ = maxZ;
+        this.setMinMaxBoundaries(minBoundary, maxBoundary);
     }
 
-    public Region(String id, String owner, String[] members, Flag[] flags, Location minLoc, Location maxLoc) {
-        this(id, owner, members, flags, minLoc.getWorld().getName(), minLoc.getBlockX(), maxLoc.getBlockX(), minLoc.getBlockY(), maxLoc.getBlockY(), minLoc.getBlockZ(), maxLoc.getBlockZ());
-    }
-
-    public Region(String id, String owner, String[] members, Flag[] flags, String world, Vector minLoc, Vector maxLoc) {
-        this(id, owner, members, flags, world, minLoc.getBlockX(), maxLoc.getBlockX(), minLoc.getBlockY(), maxLoc.getBlockY(), minLoc.getBlockZ(), maxLoc.getBlockZ());
+    public Region(String id, String owner, String[] members, Flag[] flags, String world, Location minLoc, Location maxLoc) {
+        this(id, owner, members, flags, world, minLoc.toVector(), maxLoc.toVector());
     }
 
     /**
@@ -88,6 +75,10 @@ public class Region {
         return owner;
     }
 
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     /**
      * Get a list of members of the region
      *
@@ -95,6 +86,10 @@ public class Region {
      */
     public String[] getMembers() {
         return members;
+    }
+
+    public void setMembers(String[] members) {
+        this.members = members;
     }
 
     /**
@@ -135,7 +130,7 @@ public class Region {
      * @return Location of the minimum boundary
      */
     public Vector getMinBoundary() {
-        return new Vector(minX, minY, minZ);
+        return this.minBoundary;
     }
 
     /**
@@ -144,10 +139,40 @@ public class Region {
      * @return Location of the maximum boundary
      */
     public Vector getMaxBoundary() {
-        return new Vector(maxX, maxY, maxZ);
+        return this.maxBoundary;
     }
 
-    private void setMinMaxBoundaries(List<Vector> points) {
+    /**
+     * Set the minimum and maximum boundaries from a two vectors
+     *
+     * @param vector1 One of the boundaries
+     * @param vector2 The other boundary
+     */
+    private void setMinMaxBoundaries(Vector vector1, Vector vector2) {
+        int minX = Math.min(vector1.getBlockX(), vector2.getBlockX());
+        int minY = Math.min(vector1.getBlockY(), vector2.getBlockY());
+        int minZ = Math.min(vector1.getBlockZ(), vector2.getBlockY());
+        int maxX = Math.max(vector1.getBlockX(), vector2.getBlockX());
+        int maxY = Math.max(vector1.getBlockY(), vector2.getBlockY());
+        int maxZ = Math.max(vector1.getBlockZ(), vector2.getBlockY());
 
+        this.minBoundary = new Vector(minX, minY, minZ);
+        this.maxBoundary = new Vector(maxX, maxY, maxZ);
+    }
+
+    /**
+     * Check if the region contains a point
+     *
+     * @param location Location to check region for
+     * @return True if region contains point, else false
+     */
+    public boolean containsPoint(Location location) {
+        if (location.getWorld() == this.getWorld())
+            if ((maxBoundary.getBlockZ() > location.getBlockZ()) && (location.getBlockZ() > minBoundary.getBlockZ()))
+                if ((maxBoundary.getBlockY() > location.getBlockY()) && (location.getBlockY() > minBoundary.getBlockY()))
+                    if ((maxBoundary.getBlockX() > location.getBlockX()) && (location.getBlockX() > minBoundary.getBlockX()))
+                        //TODO: Optimise checking if region contains point
+                        return true;
+        return false;
     }
 }
