@@ -198,30 +198,35 @@ public class Region {
      * @return True if region contains point, else false
      */
     public boolean containsPoint(Location location) {
-        if (location.getWorld() == this.getWorld())
-            if ((maxBoundary.getBlockZ() > location.getBlockZ()) &&
-                    (location.getBlockZ() > minBoundary.getBlockZ()))
-                if ((maxBoundary.getBlockY() > location.getBlockY()) &&
-                        (location.getBlockY() > minBoundary.getBlockY()))
-                    if ((maxBoundary.getBlockX() > location.getBlockX()) &&
-                            (location.getBlockX() > minBoundary.getBlockX()))
-                        //TODO: Optimise checking if region contains point
+        if (location.getWorld() == this.getWorld()) {
+            if ((maxBoundary.getBlockZ() > location.getBlockZ())
+                    && (location.getBlockZ() > minBoundary.getBlockZ())) {
+                if ((maxBoundary.getBlockY() > location.getBlockY())
+                        && (location.getBlockY() > minBoundary.getBlockY())) {
+                    if ((maxBoundary.getBlockX() > location.getBlockX())
+                            && (location.getBlockX() > minBoundary.getBlockX())) //TODO: Optimise checking if region contains point
+                    {
                         return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
     public boolean canBuild(String playerName) {
         Boolean buildFlag = false;
         for (Flag flag : flags) {
-            if (flag.getFlagName().equals("build"))
+            if (flag.getFlagName().equals("build")) {
                 if (flag.getFlagState()) {
                     buildFlag = true;
                 }
+            }
         }
 
-        if (owner.equals(playerName) ||
-                Arrays.asList(members).contains(playerName) ||
-                buildFlag) {
+        if (owner.equals(playerName)
+                || Arrays.asList(members).contains(playerName)
+                || buildFlag) {
             return true;
         }
         if (Bukkit.getPlayer(playerName) != null) {

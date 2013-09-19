@@ -31,7 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ProtectionAPI extends JavaPlugin {
 
     private final boolean debug = false;
-    
+
     private RegionManager regionManager;
     private ConfigurationManager configManager;
 
@@ -42,27 +42,21 @@ public class ProtectionAPI extends JavaPlugin {
 
     private void enableMetrics() {
     }
-    
-    /**
-     * Send a debug message from ProtectionAPI to console
-     */
+
+    /** Send a debug message from ProtectionAPI to console */
     public void debug(String message) {
         if (debug) {
             message = "[Debug] " + message;
             getLogger().info(message);
         }
     }
-    
-    /**
-     * Get the RegionManager
-     */
+
+    /** Get the RegionManager */
     public RegionManager getRegionManager() {
         return regionManager;
     }
-    
-    /**
-     * Get the ConfigurationManager
-     */
+
+    /** Get the ConfigurationManager */
     public ConfigurationManager getConfigManager() {
         return configManager;
     }

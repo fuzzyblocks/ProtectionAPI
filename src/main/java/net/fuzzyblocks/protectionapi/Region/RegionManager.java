@@ -78,8 +78,9 @@ public class RegionManager {
         Set<Region> regionsAtPoint = new HashSet();
         for (Object object : regions.values()) {
             Region region = (Region) object;
-            if (region.containsPoint(location))
+            if (region.containsPoint(location)) {
                 regionsAtPoint.add(region);
+            }
         }
         return regionsAtPoint;
     }

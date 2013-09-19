@@ -36,68 +36,60 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 
-/**
- * This class handles any interactions with blocks on the minecraft server.
- */
+/** This class handles any interactions with blocks on the minecraft server. */
 public class BlockListener implements Listener {
-  
-  private final ProtectionAPI api;
-  
-  public BlockListener(ProtectionAPI instance){
-    api = instance;
-  }
-  
-  /**
-   * Called when a block is damaged.
-   * Currently only used for Cake.
-   */
-   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-   public void onBlockDamage(BlockDamageEvent event){
-     Player player = event.getPlayer();
-     Block damagedBlock = event.getBlock();
-     
-     if (damagedBlock.getType() == Material.CAKE_BLOCK){
-       //Check if player can build
-       if(!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())){
-         //TODO: load strings from configuration manager
-         player.sendMessage("");
-         event.setCancelled(true);
-         }
-     }
-   }
-   
-   /**
-    * Called when a block is broken.
-    */
-   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-   public void onBlockBreak(BlockBreakEvent event){
-     Player player = event.getPlayer();
-     Block block = event.getBlock();
-     
-     //Check if player can build
-     if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())){
-       //TODO: load strings from configuration manager
-       player.sendMessage("");
-       event.setCancelled(true);
-     }
-   }
-   
-   /**
-    * Called when a block gets ignited
-    */
+
+    private final ProtectionAPI api;
+
+    public BlockListener(ProtectionAPI instance) {
+        api = instance;
+    }
+
+    /** Called when a block is damaged. Currently only used for Cake. */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onBlockIgnite(BlockIgniteEvent event){
-      BlockIgniteEvent.IgniteCause igniteCause = event.getCause();
-      Block block = event.getBlock();
-      //Check if fire is caused by a player
-      if (igniteCause == BlockIgniteEvent.IgniteCause.FLINT_AND_STEEL ||
-      igniteCause == BlockIgniteEvent.IgniteCause.FIREBALL &&
-      event.getPlayer() != null)
-      //Check if player can build
-      if (!api.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), block.getLocation())) {
-        //TODO: load strings from configuration manager
-        event.getPlayer().sendMessage("");
-        event.setCancelled(true);
-      }
+    public void onBlockDamage(BlockDamageEvent event) {
+        Player player = event.getPlayer();
+        Block damagedBlock = event.getBlock();
+
+        if (damagedBlock.getType() == Material.CAKE_BLOCK) {
+            //Check if player can build
+            if (!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())) {
+                //TODO: load strings from configuration manager
+                player.sendMessage("");
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    /** Called when a block is broken. */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onBlockBreak(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
+
+        //Check if player can build
+        if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())) {
+            //TODO: load strings from configuration manager
+            player.sendMessage("");
+            event.setCancelled(true);
+        }
+    }
+
+    /** Called when a block gets ignited */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onBlockIgnite(BlockIgniteEvent event) {
+        BlockIgniteEvent.IgniteCause igniteCause = event.getCause();
+        Block block = event.getBlock();
+        //Check if fire is caused by a player
+        if (igniteCause == BlockIgniteEvent.IgniteCause.FLINT_AND_STEEL
+                || igniteCause == BlockIgniteEvent.IgniteCause.FIREBALL
+                && event.getPlayer() != null) //Check if player can build
+        {
+            if (!api.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), block.getLocation())) {
+                //TODO: load strings from configuration manager
+                event.getPlayer().sendMessage("");
+                event.setCancelled(true);
+            }
+        }
     }
 }

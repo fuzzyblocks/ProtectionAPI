@@ -89,8 +89,9 @@ public class FlatFileStore implements ProtectionStore {
         YamlConfiguration regionlist = new YamlConfiguration();
         List<Region> regionsList = new ArrayList<>();
 
-        for (Region region : regions.values())
+        for (Region region : regions.values()) {
             regionsList.add(region);
+        }
 
         for (Region region : regionsList) {
             ConfigurationSection cs = regionlist.createSection(region.getId().toLowerCase());
