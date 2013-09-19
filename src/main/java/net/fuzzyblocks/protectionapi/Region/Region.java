@@ -39,10 +39,10 @@ import java.util.List;
 public class Region {
 
     private final String id;
+    private final String world;
     private String owner;
     private String[] members;
     private Flag[] flags;
-    private final String world;
     private Vector minBoundary;
     private Vector maxBoundary;
 
@@ -228,11 +228,6 @@ public class Region {
                 || Arrays.asList(members).contains(playerName)
                 || buildFlag) {
             return true;
-        }
-        if (Bukkit.getPlayer(playerName) != null) {
-            if (Bukkit.getPlayer(playerName).hasPermission("protectionapi.bypass")) {
-                return true;
-            }
         }
         return false;
     }

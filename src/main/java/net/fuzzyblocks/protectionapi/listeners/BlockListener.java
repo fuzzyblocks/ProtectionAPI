@@ -53,7 +53,8 @@ public class BlockListener implements Listener {
 
         if (damagedBlock.getType() == Material.CAKE_BLOCK) {
             //Check if player can build
-            if (!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())) {
+            if (!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())
+                    || player.hasPermission("protectionapi.bypass")) {
                 //TODO: load strings from configuration manager
                 player.sendMessage("");
                 event.setCancelled(true);
@@ -68,7 +69,8 @@ public class BlockListener implements Listener {
         Block block = event.getBlock();
 
         //Check if player can build
-        if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())) {
+        if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())
+                || player.hasPermission("protectionapi.bypass")) {
             //TODO: load strings from configuration manager
             player.sendMessage("");
             event.setCancelled(true);
@@ -85,9 +87,11 @@ public class BlockListener implements Listener {
                 || igniteCause == BlockIgniteEvent.IgniteCause.FIREBALL
                 && event.getPlayer() != null) //Check if player can build
         {
-            if (!api.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), block.getLocation())) {
+            Player player = event.getPlayer();
+            if (!api.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), block.getLocation())
+                    || player.hasPermission("protectionapi.bypass")) {
                 //TODO: load strings from configuration manager
-                event.getPlayer().sendMessage("");
+                player.sendMessage("");
                 event.setCancelled(true);
             }
         }
