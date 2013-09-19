@@ -63,10 +63,10 @@ public class FlatFileStore implements ProtectionStore {
 
     private void fromDisk() {
         regions = new HashMap<>();
-        YamlConfiguration regionlist = YamlConfiguration.loadConfiguration(file);
+        YamlConfiguration regionList = YamlConfiguration.loadConfiguration(file);
 
-        for (String key : regionlist.getKeys(false)) {
-            ConfigurationSection cs = regionlist.getConfigurationSection(key);
+        for (String key : regionList.getKeys(false)) {
+            ConfigurationSection cs = regionList.getConfigurationSection(key);
 
             String owner = cs.getString(OWNER_FIELD);
             String[] members = (String[]) cs.get(MEMBER_FIELD);

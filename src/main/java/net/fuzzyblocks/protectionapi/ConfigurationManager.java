@@ -23,47 +23,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package net.fuzzyblocks.protectionapi;
+package net.fuzzyblocks.protectionapi.listeners;
 
-import net.fuzzyblocks.protectionapi.Region.RegionManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class ProtectionAPI extends JavaPlugin {
-
-    private boolean debug = false;
-    
-    private RegionManager regionManager;
-    private ConfigurationManager configManager;
-
-    public void onEnable() {
-        regionManager = new RegionManager(this);
-        configManager = new ConfigurationManager(this);
-    }
-
-    private void enableMetrics() {
-    }
-    
-    /**
-     * Send a debug message from ProtectionAPI to console
-     */
-    public void debug(String message) {
-        if (debug) {
-            message = "[Debug] " + message;
-            getLogger().info(message);
-        }
-    }
-    
-    /**
-     * Get the RegionManager
-     */
-    public RegionManager getRegionManager() {
-        return regionManager;
-    }
-    
-    /**
-     * Get the ConfigurationManager
-     */
-    public ConfigurationManager getConfigManager() {
-        return configManager;
-    }
+public class ConfigurationManager {
+//TODO: Add string loader, Strings should be provided by the front end
 }

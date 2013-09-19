@@ -31,6 +31,7 @@ import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /** A representation of a stored region */
@@ -200,11 +201,36 @@ public class Region {
      */
     public boolean containsPoint(Location location) {
         if (location.getWorld() == this.getWorld())
-            if ((maxBoundary.getBlockZ() > location.getBlockZ()) && (location.getBlockZ() > minBoundary.getBlockZ()))
-                if ((maxBoundary.getBlockY() > location.getBlockY()) && (location.getBlockY() > minBoundary.getBlockY()))
-                    if ((maxBoundary.getBlockX() > location.getBlockX()) && (location.getBlockX() > minBoundary.getBlockX()))
+            if ((maxBoundary.getBlockZ() > location.getBlockZ()) &&
+                    (location.getBlockZ() > minBoundary.getBlockZ()))
+                if ((maxBoundary.getBlockY() > location.getBlockY()) &&
+                        (location.getBlockY() > minBoundary.getBlockY()))
+                    if ((maxBoundary.getBlockX() > location.getBlockX()) &&
+                            (location.getBlockX() > minBoundary.getBlockX()))
                         //TODO: Optimise checking if region contains point
                         return true;
+        return false;
+    }
+
+    public boolean canBuild(String playerName) {
+        Boolean buildFlag = false;
+        for (Flag flag : flags) {
+            if (flag.getFlagName() == "build")
+                if (flag.getFlagState()) {
+                    buildFlag = true;
+                }
+        }
+
+        if (owner == playerName ||
+                Arrays.asList(members).contains(playerName) ||
+                buildFlag) {
+            return true;
+        }
+        if (Bukkit.getPlayer(playerName) != null) {
+            if (Bukkit.getPlayer(playerName).hasPermission("protectionapi.bypass")) {
+                return true;
+            }
+        }
         return false;
     }
 }

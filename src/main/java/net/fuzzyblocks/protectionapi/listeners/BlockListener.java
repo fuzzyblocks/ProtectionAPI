@@ -24,6 +24,69 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package net.fuzzyblocks.protectionapi.listeners;
-
-public class BlockListener {
+/**
+ * This class handles any interactions with blocks on the minecraft server.
+ */
+public class BlockListener implements Listener{
+  
+  private ProtectionAPI api;
+  
+  public BlockListener(ProtectionAPI instance){
+    api = instance;
+  }
+  
+  /**
+   * Called when a block is damaged.
+   * Currently only used for Cake.
+   */
+   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+   public void onBlockDamage(BlockDamageEvent event){
+     Player player = event.getPlayer();
+     Block damagedBlock = event.getBlock();
+     
+     if (damagedBlock.getType == Material.CAKE_BLOCK){
+       //Check if player can build
+       if(!plugin.getRegionManager.canBuildAtPoint(player.getName(), block.getLocation()){
+         //TODO: load strings from configuration manager
+         player.sendMessage();
+         event.setCancelled(true);
+         return;
+       }
+     }
+   }
+   
+   /**
+    * Called when a block is broken.
+    */
+   @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+   public void onBlockBreak(BlockBreakEvent event){
+     Player player = event.getPlayer();
+     Block block = event.getBlock();
+     
+     //Check if player can build
+     if (!plugin.getRegionManager.canBuildAtPoint(player.getName(), block.getLocation()){
+       //TODO: load strings from configuration manager
+       player.sendMessage();
+       event.setCancelled(true);
+     }
+   }
+   
+   /**
+    * Called when a bloick gets ignited
+    */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onBlockIgnite(BlockIgniteEvent event){
+      IgniteCause igniteCause = event.getCause();
+      Block block = event.getBlock();
+      //Check if fire is caused by a player
+      if (igniteCause == IgniteCause.FLINT_AND_STEEL ||
+      cause == IgniteCause.FIREBALL &&
+      event.getPlayer != null)
+      //Check if playe can build
+      if (!plugin.getRegionManager.canBuildAtPoint(event.getPlayer().getName(), block.getLocation()) {
+        //TODO: load strings from configuration manager
+        player.sendMessage();
+        event.setCancelled(true);
+      }
+    }
 }

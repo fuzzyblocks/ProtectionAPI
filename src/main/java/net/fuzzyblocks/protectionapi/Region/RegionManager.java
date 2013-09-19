@@ -72,7 +72,7 @@ public class RegionManager {
      * @param location Location of point to check for regions
      * @return Set containing all regions at the Location
      */
-    public Set getRegionsAtPoint(Location location) {
+    public Set<Region> getRegionsAtPoint(Location location) {
         api.debug("Getting regions at point: " + location.getX() + ":" + location.getY() + ":" + location.getZ());
         Map regions = store.getRegionList();
         Set<Region> regionsAtPoint = new HashSet();
@@ -82,5 +82,14 @@ public class RegionManager {
                 regionsAtPoint.add(region);
         }
         return regionsAtPoint;
+    }
+
+    public boolean canBuildAtPoint(String playerName, Location location) {
+        for (Region region : getRegionsAtPoint(location)) {
+            if (region.canBuild(playerName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
