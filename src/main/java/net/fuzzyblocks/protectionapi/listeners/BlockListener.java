@@ -25,6 +25,7 @@
  */
 package net.fuzzyblocks.protectionapi.listeners;
 
+import net.fuzzyblocks.protectionapi.ConfigurationManager;
 import net.fuzzyblocks.protectionapi.ProtectionAPI;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -56,7 +57,7 @@ public class BlockListener implements Listener {
             if (!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())
                     || player.hasPermission("protectionapi.bypass")) {
                 //TODO: load strings from configuration manager
-                player.sendMessage("");
+                player.sendMessage(ConfigurationManager.getString("NOPERM_BLOCK_DAMAGE"));
                 event.setCancelled(true);
             }
         }
@@ -72,7 +73,7 @@ public class BlockListener implements Listener {
         if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())
                 || player.hasPermission("protectionapi.bypass")) {
             //TODO: load strings from configuration manager
-            player.sendMessage("");
+            player.sendMessage(ConfigurationManager.getString("NOPERM_BLOCK_BREAK"));
             event.setCancelled(true);
         }
     }
@@ -91,7 +92,7 @@ public class BlockListener implements Listener {
             if (!api.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), block.getLocation())
                     || player.hasPermission("protectionapi.bypass")) {
                 //TODO: load strings from configuration manager
-                player.sendMessage("");
+                player.sendMessage(ConfigurationManager.getString("NOPERM_BLOCK_IGNITE"));
                 event.setCancelled(true);
             }
         }

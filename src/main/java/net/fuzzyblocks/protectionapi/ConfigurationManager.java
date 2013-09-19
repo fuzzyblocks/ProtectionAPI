@@ -25,6 +25,29 @@
  */
 package net.fuzzyblocks.protectionapi;
 
+import org.bukkit.ChatColor;
+
+import java.util.Map;
+
 public class ConfigurationManager {
+
+    private static Map<String, String> strings;
+
+    public static void setString(String stringName, String stringValue) {
+        if (strings.containsKey(stringName)) {
+            strings.remove(stringName);
+            strings.put(stringName, stringValue);
+        }
+    }
+
+    public static String getString(String stringName) {
+        return strings.get(stringName);
+    }
+
+    private void loadStrings() {
+        strings.put("NOPERM_BLOCK_BREAK", ChatColor.RED + "You are not allowed to break blocks here.");
+        strings.put("NOPERM_BLOCK_DAMAGE", ChatColor.RED + "You are not allowed to eat that cake.");
+        strings.put("NOPERM_BLOCK_IGNITE", ChatColor.RED + "You are not allowed to ignite that block.");
+    }
 //TODO: Add string loader, Strings should be provided by the front end
 }
