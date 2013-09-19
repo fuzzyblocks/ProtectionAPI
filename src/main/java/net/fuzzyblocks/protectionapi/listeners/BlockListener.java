@@ -24,12 +24,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package net.fuzzyblocks.protectionapi.listeners;
+
+import net.fuzzyblocks.protectionapi.ProtectionAPI;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+
 /**
  * This class handles any interactions with blocks on the minecraft server.
  */
-public class BlockListener implements Listener{
+public class BlockListener implements Listener {
   
-  private ProtectionAPI api;
+  private final ProtectionAPI api;
   
   public BlockListener(ProtectionAPI instance){
     api = instance;
@@ -44,14 +56,13 @@ public class BlockListener implements Listener{
      Player player = event.getPlayer();
      Block damagedBlock = event.getBlock();
      
-     if (damagedBlock.getType == Material.CAKE_BLOCK){
+     if (damagedBlock.getType() == Material.CAKE_BLOCK){
        //Check if player can build
-       if(!plugin.getRegionManager.canBuildAtPoint(player.getName(), block.getLocation()){
+       if(!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())){
          //TODO: load strings from configuration manager
-         player.sendMessage();
+         player.sendMessage("");
          event.setCancelled(true);
-         return;
-       }
+         }
      }
    }
    
@@ -64,28 +75,28 @@ public class BlockListener implements Listener{
      Block block = event.getBlock();
      
      //Check if player can build
-     if (!plugin.getRegionManager.canBuildAtPoint(player.getName(), block.getLocation()){
+     if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())){
        //TODO: load strings from configuration manager
-       player.sendMessage();
+       player.sendMessage("");
        event.setCancelled(true);
      }
    }
    
    /**
-    * Called when a bloick gets ignited
+    * Called when a block gets ignited
     */
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockIgnite(BlockIgniteEvent event){
-      IgniteCause igniteCause = event.getCause();
+      BlockIgniteEvent.IgniteCause igniteCause = event.getCause();
       Block block = event.getBlock();
       //Check if fire is caused by a player
-      if (igniteCause == IgniteCause.FLINT_AND_STEEL ||
-      cause == IgniteCause.FIREBALL &&
-      event.getPlayer != null)
-      //Check if playe can build
-      if (!plugin.getRegionManager.canBuildAtPoint(event.getPlayer().getName(), block.getLocation()) {
+      if (igniteCause == BlockIgniteEvent.IgniteCause.FLINT_AND_STEEL ||
+      igniteCause == BlockIgniteEvent.IgniteCause.FIREBALL &&
+      event.getPlayer() != null)
+      //Check if player can build
+      if (!api.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), block.getLocation())) {
         //TODO: load strings from configuration manager
-        player.sendMessage();
+        event.getPlayer().sendMessage("");
         event.setCancelled(true);
       }
     }

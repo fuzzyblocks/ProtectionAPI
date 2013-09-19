@@ -36,14 +36,14 @@ import java.util.*;
 
 public class FlatFileStore implements ProtectionStore {
 
-    private static String OWNER_FIELD = "owner:";
-    private static String MEMBER_FIELD = "members:";
-    private static String FLAGS_FIELD = "flags:";
-    private static String WORLD_FIELD = "world:";
-    private static String MINIMUM_BOUNDARIES_FIELD = "min:";
-    private static String MAXIMUM_BOUNDARIES_FIELD = "max:";
+    private static final String OWNER_FIELD = "owner:";
+    private static final String MEMBER_FIELD = "members:";
+    private static final String FLAGS_FIELD = "flags:";
+    private static final String WORLD_FIELD = "world:";
+    private static final String MINIMUM_BOUNDARIES_FIELD = "min:";
+    private static final String MAXIMUM_BOUNDARIES_FIELD = "max:";
     private Map<String, Region> regions;
-    private File file;
+    private final File file;
 
     public FlatFileStore(File storage) {
         file = storage;
@@ -80,6 +80,7 @@ public class FlatFileStore implements ProtectionStore {
         }
     }
 
+    //TODO: Parse flags to strings
     private Flag[] stringsToFlags(String[] strings) {
         return new Flag[0];
     }

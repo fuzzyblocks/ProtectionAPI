@@ -32,16 +32,17 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /** A representation of a stored region */
 public class Region {
 
-    private String id;
+    private final String id;
     private String owner;
     private String[] members;
     private Flag[] flags;
-    private String world;
+    private final String world;
     private Vector minBoundary;
     private Vector maxBoundary;
 
@@ -110,11 +111,9 @@ public class Region {
      */
     public void addMembers(String[] members) {
         List<String> newMembers = new ArrayList<>();
-        for (String s : members)
-            newMembers.add(s);
-        for (String s : getMembers())
-            newMembers.add(s);
-        this.members = newMembers.toArray(new String[0]);
+        Collections.addAll(newMembers, members);
+        Collections.addAll(newMembers, getMembers());
+        this.members = newMembers.toArray(new String[newMembers.size()]);
     }
 
     /**
@@ -142,10 +141,9 @@ public class Region {
      */
     public void setFlag(Flag flag) {
         List<Flag> newFlags = new ArrayList<>();
-        for (Flag f : flags)
-            newFlags.add(f);
+        Collections.addAll(newFlags, flags);
         newFlags.add(flag);
-        this.flags = newFlags.toArray(new Flag[0]);
+        this.flags = newFlags.toArray(new Flag[newFlags.size()]);
     }
 
     /**
@@ -215,13 +213,13 @@ public class Region {
     public boolean canBuild(String playerName) {
         Boolean buildFlag = false;
         for (Flag flag : flags) {
-            if (flag.getFlagName() == "build")
+            if (flag.getFlagName().equals("build"))
                 if (flag.getFlagState()) {
                     buildFlag = true;
                 }
         }
 
-        if (owner == playerName ||
+        if (owner.equals(playerName) ||
                 Arrays.asList(members).contains(playerName) ||
                 buildFlag) {
             return true;

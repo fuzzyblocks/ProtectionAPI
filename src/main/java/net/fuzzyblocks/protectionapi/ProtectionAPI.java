@@ -30,14 +30,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class ProtectionAPI extends JavaPlugin {
 
-    private boolean debug = false;
+    private final boolean debug = false;
     
     private RegionManager regionManager;
     private ConfigurationManager configManager;
 
     public void onEnable() {
         regionManager = new RegionManager(this);
-        configManager = new ConfigurationManager(this);
+        configManager = new ConfigurationManager();
     }
 
     private void enableMetrics() {

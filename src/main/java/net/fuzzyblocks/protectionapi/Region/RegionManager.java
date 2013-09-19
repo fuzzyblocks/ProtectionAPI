@@ -41,8 +41,8 @@ import java.util.Set;
  */
 public class RegionManager {
 
-    private ProtectionAPI api;
-    private ProtectionStore store;
+    private final ProtectionAPI api;
+    private final ProtectionStore store;
 
     public RegionManager(ProtectionAPI instance) {
         this.api = instance;

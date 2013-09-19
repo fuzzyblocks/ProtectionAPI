@@ -27,9 +27,9 @@ package net.fuzzyblocks.protectionapi.Region;
 
 public class Flag {
 
-    private String flagName;
-    private String desc;
-    private Boolean flagState;
+    private final String flagName;
+    private final String desc;
+    private final Boolean flagState;
 
     public Flag(String flagName, String desc, Boolean flagState) {
         this.flagName = flagName;

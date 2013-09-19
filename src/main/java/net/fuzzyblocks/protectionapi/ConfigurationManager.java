@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package net.fuzzyblocks.protectionapi.listeners;
+package net.fuzzyblocks.protectionapi;
 
 public class ConfigurationManager {
 //TODO: Add string loader, Strings should be provided by the front end
