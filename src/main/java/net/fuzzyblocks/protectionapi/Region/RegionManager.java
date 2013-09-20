@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package net.fuzzyblocks.protectionapi.Region;
+package net.fuzzyblocks.protectionapi.region;
 
 import net.fuzzyblocks.protectionapi.ProtectionAPI;
 import net.fuzzyblocks.protectionapi.storage.FlatFileStore;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A Region manager to handle the creation and modification of regions in
+ * A region manager to handle the creation and modification of regions in
  * ProtectionAPI
  */
 public class RegionManager {
@@ -59,7 +59,7 @@ public class RegionManager {
     /**
      * Create and store a region with the specified parameters
      *
-     * @param region Region to store
+     * @param region region to store
      */
     public void storeRegion(Region region) {
         api.debug("Storing region: " + region.getId() + " for owner: " + region.getOwner());

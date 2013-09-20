@@ -25,7 +25,7 @@
  */
 package net.fuzzyblocks.protectionapi.storage;
 
-import net.fuzzyblocks.protectionapi.Region.Region;
+import net.fuzzyblocks.protectionapi.region.Region;
 
 import java.util.Map;
 
@@ -41,7 +41,7 @@ public interface ProtectionStore {
     /**
      * Save a region to disk / database
      *
-     * @param region Region to save
+     * @param region region to save
      */
     public void storeRegion(Region region);
 

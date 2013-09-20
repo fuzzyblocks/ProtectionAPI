@@ -25,7 +25,7 @@
  */
 package net.fuzzyblocks.protectionapi;
 
-import net.fuzzyblocks.protectionapi.Region.RegionManager;
+import net.fuzzyblocks.protectionapi.region.RegionManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ProtectionAPI extends JavaPlugin {

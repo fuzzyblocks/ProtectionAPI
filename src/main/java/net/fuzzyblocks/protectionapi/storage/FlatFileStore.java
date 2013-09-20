@@ -25,8 +25,8 @@
  */
 package net.fuzzyblocks.protectionapi.storage;
 
-import net.fuzzyblocks.protectionapi.Region.Flag;
-import net.fuzzyblocks.protectionapi.Region.Region;
+import net.fuzzyblocks.protectionapi.region.Flag;
+import net.fuzzyblocks.protectionapi.region.Region;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.Vector;
