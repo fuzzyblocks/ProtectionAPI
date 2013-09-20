@@ -25,8 +25,8 @@
  */
 package net.fuzzyblocks.protectionapi.listeners;
 
-import net.fuzzyblocks.protectionapi.ConfigurationManager;
 import net.fuzzyblocks.protectionapi.ProtectionAPI;
+import net.fuzzyblocks.protectionapi.events.NoPermBlockIgniteEvent;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -54,11 +54,12 @@ public class BlockListener implements Listener {
 
         if (damagedBlock.getType() == Material.CAKE_BLOCK) {
             //Check if player can build
-            if (!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())
-                    || player.hasPermission("protectionapi.bypass")) {
-                //TODO: load strings from configuration manager
-                player.sendMessage(ConfigurationManager.getString("NOPERM_BLOCK_DAMAGE"));
-                event.setCancelled(true);
+            if (!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())) {
+                NoPermBlockIgniteEvent noPermBlockDamageEvent = new NoPermBlockIgniteEvent(player, damagedBlock);
+                api.fireEvent(noPermBlockDamageEvent);
+                if (noPermBlockDamageEvent.isPrevented()) {
+                    event.setCancelled(true);
+                }
             }
         }
     }
@@ -70,11 +71,12 @@ public class BlockListener implements Listener {
         Block block = event.getBlock();
 
         //Check if player can build
-        if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())
-                || player.hasPermission("protectionapi.bypass")) {
-            //TODO: load strings from configuration manager
-            player.sendMessage(ConfigurationManager.getString("NOPERM_BLOCK_BREAK"));
-            event.setCancelled(true);
+        if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())) {
+            NoPermBlockIgniteEvent noPermBlockBreakEvent = new NoPermBlockIgniteEvent(player, block);
+            api.fireEvent(noPermBlockBreakEvent);
+            if (noPermBlockBreakEvent.isPrevented()) {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -86,14 +88,14 @@ public class BlockListener implements Listener {
         //Check if fire is caused by a player
         if (igniteCause == BlockIgniteEvent.IgniteCause.FLINT_AND_STEEL
                 || igniteCause == BlockIgniteEvent.IgniteCause.FIREBALL
-                && event.getPlayer() != null) //Check if player can build
-        {
-            Player player = event.getPlayer();
-            if (!api.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), block.getLocation())
-                    || player.hasPermission("protectionapi.bypass")) {
-                //TODO: load strings from configuration manager
-                player.sendMessage(ConfigurationManager.getString("NOPERM_BLOCK_IGNITE"));
-                event.setCancelled(true);
+                && event.getPlayer() != null) {
+            //Check if player can build
+            if (!api.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), block.getLocation())) {
+                NoPermBlockIgniteEvent noPermBlockIgniteEvent = new NoPermBlockIgniteEvent(event.getPlayer(), block);
+                api.fireEvent(noPermBlockIgniteEvent);
+                if (noPermBlockIgniteEvent.isPrevented()) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

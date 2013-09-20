@@ -26,6 +26,8 @@
 package net.fuzzyblocks.protectionapi;
 
 import net.fuzzyblocks.protectionapi.region.RegionManager;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ProtectionAPI extends JavaPlugin {
@@ -33,11 +35,9 @@ public class ProtectionAPI extends JavaPlugin {
     private final boolean debug = false;
 
     private RegionManager regionManager;
-    private ConfigurationManager configManager;
 
     public void onEnable() {
         regionManager = new RegionManager(this);
-        configManager = new ConfigurationManager();
     }
 
     private void enableMetrics() {
@@ -56,8 +56,7 @@ public class ProtectionAPI extends JavaPlugin {
         return regionManager;
     }
 
-    /** Get the ConfigurationManager */
-    public ConfigurationManager getConfigManager() {
-        return configManager;
+    public void fireEvent(Event event) {
+        Bukkit.getServer().getPluginManager().callEvent(event);
     }
 }
