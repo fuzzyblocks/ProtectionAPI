@@ -25,11 +25,14 @@
 */
 package net.fuzzyblocks.protectionapi.events;
 
+import net.fuzzyblocks.protectionapi.region.Region;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import java.util.Set;
 
 public class NoPermBlockDamageEvent extends Event {
 
@@ -37,11 +40,13 @@ public class NoPermBlockDamageEvent extends Event {
     private Player player;
     private Block block;
     private boolean prevented;
+    private Set<Region> regionSet;
 
-    public NoPermBlockDamageEvent(Player player, Block block) {
+    public NoPermBlockDamageEvent(Player player, Block block, Set<Region> regions) {
         this.player = player;
         this.block = block;
         this.prevented = false;
+        this.regionSet = regions;
     }
 
     public Player getPlayer() {
@@ -70,5 +75,9 @@ public class NoPermBlockDamageEvent extends Event {
 
     public boolean isPrevented() {
         return prevented;
+    }
+
+    public Set<Region> getApplicableRegions() {
+        return regionSet;
     }
 }
