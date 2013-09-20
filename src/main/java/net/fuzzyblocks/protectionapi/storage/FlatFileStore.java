@@ -70,7 +70,7 @@ public class FlatFileStore implements ProtectionStore {
 
             String owner = cs.getString(OWNER_FIELD);
             String[] members = (String[]) cs.get(MEMBER_FIELD);
-            Flag[] flags = stringsToFlags((String[]) cs.get(FLAGS_FIELD));
+            Flag[] flags = parseFlagInput((String[]) cs.get(FLAGS_FIELD));
             String world = cs.getString(WORLD_FIELD);
             Vector minimumBoundary = parseVectorInput(cs.getString(MINIMUM_BOUNDARIES_FIELD));
             Vector maximumBoundary = parseVectorInput(cs.getString(MAXIMUM_BOUNDARIES_FIELD));
@@ -80,9 +80,27 @@ public class FlatFileStore implements ProtectionStore {
         }
     }
 
-    //TODO: Parse flags to strings
-    private Flag[] stringsToFlags(String[] strings) {
-        return new Flag[0];
+
+    private String[] parseFlagOutput(Flag[] flags) {
+        List<String> flagList = new ArrayList<>();
+        for (Flag flag : flags) {
+            String flagName = flag.getFlagName();
+            Boolean flagState = flag.getFlagState();
+            flagList.add(flagName + ":" + flagState.toString());
+        }
+        return flagList.toArray(new String[flagList.size()]);
+    }
+    private Flag[] parseFlagInput(String[] strings) {
+        List<Flag> flagList = new ArrayList<>();
+        String flagName;
+        Boolean flagState;
+        for (String string : strings) {
+            List<String> list = Arrays.asList(string.split(":"));
+            flagName = list.get(0);
+            flagState = Boolean.parseBoolean(list.get(1));
+            flagList.add(new Flag(flagName, flagState));
+        }
+        return flagList.toArray(new Flag[flagList.size()]);
     }
 
     public void toDisk() {
@@ -98,7 +116,7 @@ public class FlatFileStore implements ProtectionStore {
 
             cs.set(OWNER_FIELD, region.getOwner());
             cs.set(MEMBER_FIELD, region.getMembers());
-            cs.set(FLAGS_FIELD, region.getFlags());
+            cs.set(FLAGS_FIELD, parseFlagOutput(region.getFlags()));
             cs.set(WORLD_FIELD, region.getWorld().getName());
             cs.set(MINIMUM_BOUNDARIES_FIELD, parseVectorOutput(region.getMinBoundary()));
             cs.set(MAXIMUM_BOUNDARIES_FIELD, parseVectorOutput(region.getMaxBoundary()));
