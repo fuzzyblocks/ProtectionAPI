@@ -26,8 +26,10 @@
 package net.fuzzyblocks.protectionapi.listeners;
 
 import net.fuzzyblocks.protectionapi.ProtectionAPI;
+import net.fuzzyblocks.protectionapi.events.NoPermBlockBreakEvent;
 import net.fuzzyblocks.protectionapi.events.NoPermBlockDamageEvent;
 import net.fuzzyblocks.protectionapi.events.NoPermBlockIgniteEvent;
+import net.fuzzyblocks.protectionapi.events.NoPermBlockPlaceEvent;
 import net.fuzzyblocks.protectionapi.region.RegionManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -38,6 +40,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 
 /** This class handles any interactions with blocks on the minecraft server. */
 public class BlockListener implements Listener {
@@ -77,7 +80,7 @@ public class BlockListener implements Listener {
 
         //Check if player can build
         if (!api.getRegionManager().canBuildAtPoint(player.getName(), brokenBlock.getLocation())) {
-            NoPermBlockIgniteEvent noPermBlockBreakEvent = new NoPermBlockIgniteEvent(player, brokenBlock,
+            NoPermBlockBreakEvent noPermBlockBreakEvent = new NoPermBlockBreakEvent(player, brokenBlock,
                     regionManager.getRegionsAtPoint(brokenBlock.getLocation()));
             api.fireEvent(noPermBlockBreakEvent);
             if (noPermBlockBreakEvent.isPrevented()) {
@@ -103,6 +106,23 @@ public class BlockListener implements Listener {
                 if (noPermBlockIgniteEvent.isPrevented()) {
                     event.setCancelled(true);
                 }
+            }
+        }
+    }
+
+    /** Called when a block is placed */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onBlockPlace(BlockPlaceEvent event) {
+        Block placedBlock = event.getBlock();
+        Player player = event.getPlayer();
+
+        //Check if a player can build
+        if (!api.getRegionManager().canBuildAtPoint(player.getName(), placedBlock.getLocation())) {
+            NoPermBlockPlaceEvent noPermBlockPlaceEvent = new NoPermBlockPlaceEvent(player, placedBlock,
+                    regionManager.getRegionsAtPoint(placedBlock.getLocation()));
+            api.fireEvent(noPermBlockPlaceEvent);
+            if (noPermBlockPlaceEvent.isPrevented()) {
+                event.setCancelled(true);
             }
         }
     }
