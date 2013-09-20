@@ -26,6 +26,8 @@
 package net.fuzzyblocks.protectionapi.listeners;
 
 import net.fuzzyblocks.protectionapi.ProtectionAPI;
+import net.fuzzyblocks.protectionapi.events.NoPermBlockBreakEvent;
+import net.fuzzyblocks.protectionapi.events.NoPermBlockDamageEvent;
 import net.fuzzyblocks.protectionapi.events.NoPermBlockIgniteEvent;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -55,7 +57,7 @@ public class BlockListener implements Listener {
         if (damagedBlock.getType() == Material.CAKE_BLOCK) {
             //Check if player can build
             if (!api.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())) {
-                NoPermBlockIgniteEvent noPermBlockDamageEvent = new NoPermBlockIgniteEvent(player, damagedBlock);
+                NoPermBlockDamageEvent noPermBlockDamageEvent = new NoPermBlockDamageEvent(player, damagedBlock);
                 api.fireEvent(noPermBlockDamageEvent);
                 if (noPermBlockDamageEvent.isPrevented()) {
                     event.setCancelled(true);
@@ -72,7 +74,7 @@ public class BlockListener implements Listener {
 
         //Check if player can build
         if (!api.getRegionManager().canBuildAtPoint(player.getName(), block.getLocation())) {
-            NoPermBlockIgniteEvent noPermBlockBreakEvent = new NoPermBlockIgniteEvent(player, block);
+            NoPermBlockBreakEvent noPermBlockBreakEvent = new NoPermBlockBreakEvent(player, block);
             api.fireEvent(noPermBlockBreakEvent);
             if (noPermBlockBreakEvent.isPrevented()) {
                 event.setCancelled(true);
