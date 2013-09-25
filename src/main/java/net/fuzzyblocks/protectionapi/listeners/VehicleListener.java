@@ -25,5 +25,11 @@
  */
 package net.fuzzyblocks.protectionapi.listeners;
 
-public class VehicleListener {
+import net.fuzzyblocks.protectionapi.ProtectionAPI;
+
+public class VehicleListener extends ProtectionAPIListener {
+
+    public VehicleListener(ProtectionAPI instance) {
+        super(instance);
+    }
 }

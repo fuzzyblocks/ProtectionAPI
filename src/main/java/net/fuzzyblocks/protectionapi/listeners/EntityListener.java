@@ -25,5 +25,11 @@
  */
 package net.fuzzyblocks.protectionapi.listeners;
 
-public class EntityListener {
+import net.fuzzyblocks.protectionapi.ProtectionAPI;
+
+public class EntityListener extends ProtectionAPIListener {
+
+    public EntityListener(ProtectionAPI instance) {
+        super(instance);
+    }
 }

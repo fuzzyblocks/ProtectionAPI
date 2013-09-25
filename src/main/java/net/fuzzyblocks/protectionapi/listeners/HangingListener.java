@@ -25,5 +25,11 @@
  */
 package net.fuzzyblocks.protectionapi.listeners;
 
-public class HangingListener {
+import net.fuzzyblocks.protectionapi.ProtectionAPI;
+
+public class HangingListener extends ProtectionAPIListener {
+
+    public HangingListener(ProtectionAPI instance) {
+        super(instance);
+    }
 }

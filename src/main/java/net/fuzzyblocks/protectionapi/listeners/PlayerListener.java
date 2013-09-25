@@ -25,5 +25,11 @@
  */
 package net.fuzzyblocks.protectionapi.listeners;
 
-public class PlayerListener {
+import net.fuzzyblocks.protectionapi.ProtectionAPI;
+
+public class PlayerListener extends ProtectionAPIListener {
+
+    public PlayerListener(ProtectionAPI instance) {
+        super(instance);
+    }
 }
