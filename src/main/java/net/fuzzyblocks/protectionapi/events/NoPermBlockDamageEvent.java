@@ -26,58 +26,14 @@
 package net.fuzzyblocks.protectionapi.events;
 
 import net.fuzzyblocks.protectionapi.region.Region;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
 import java.util.Set;
 
-public class NoPermBlockDamageEvent extends Event {
-
-    private static final HandlerList handlers = new HandlerList();
-    private Player player;
-    private Block block;
-    private boolean prevented;
-    private Set<Region> regionSet;
+public class NoPermBlockDamageEvent extends ProtectionAPIEvent {
 
     public NoPermBlockDamageEvent(Player player, Block block, Set<Region> regions) {
-        this.player = player;
-        this.block = block;
-        this.prevented = false;
-        this.regionSet = regions;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Block getBlock() {
-        return block;
-    }
-
-    public Location getLocation() {
-        return block.getLocation();
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public void setPrevented(boolean prevented) {
-        this.prevented = prevented;
-    }
-
-    public boolean isPrevented() {
-        return prevented;
-    }
-
-    public Set<Region> getApplicableRegions() {
-        return regionSet;
+        super(player, block, regions);
     }
 }
