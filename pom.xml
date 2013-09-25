@@ -16,11 +16,6 @@
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
-        <!-- MCStats Repository -->
-        <repository>
-            <id>mcstats</id>
-            <url>http://repo.mcstats.org/content/repositories/public</url>
-        </repository>
     </repositories>
     <profiles>
         <profile>
@@ -54,33 +49,6 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <artifactSet>
-                        <includes>
-                            <include>org.mcstats.bukkit:metrics-lite</include>
-                        </includes>
-                    </artifactSet>
-                    <relocations>
-                        <relocation>
-                            <pattern>org.mcstats</pattern>
-                            <shadedPattern>net.fuzzyblocks.protectionapi.util.mcstats</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -88,15 +56,8 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.6.2-R0.1-SNAPSHOT</version>
+            <version>1.6.2-R1.0</version>
             <type>jar</type>
-        </dependency>
-        <!-- Metrics Dependency -->
-        <dependency>
-            <groupId>org.mcstats.bukkit</groupId>
-            <artifactId>metrics-lite</artifactId>
-            <version>R6</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
