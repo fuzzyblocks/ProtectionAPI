@@ -60,9 +60,9 @@ public class BlockListener extends ProtectionAPIListener {
         if (damagedBlock.getType() == Material.CAKE_BLOCK) {
             //Check if player can build
             if (!plugin.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())) {
-                IllegalBlockDamageEvent illegalBlockDamageEvent = new IllegalBlockDamageEvent(player, damagedBlock,
+                IllegalBlockDamageEvent apiEvent = new IllegalBlockDamageEvent(player, damagedBlock,
                         regionManager.getRegionsAtPoint(damagedBlock.getLocation()), event);
-                plugin.fireEvent(illegalBlockDamageEvent);
+                plugin.fireEvent(apiEvent);
 
                 // This is for the front-end to do.
                 //if (illegalBlockDamageEvent.isPrevented()) {
