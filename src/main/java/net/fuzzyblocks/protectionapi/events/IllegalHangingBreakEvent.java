@@ -27,57 +27,14 @@
 package net.fuzzyblocks.protectionapi.events;
 
 import net.fuzzyblocks.protectionapi.region.Region;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
+import org.bukkit.entity.Hanging;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
 import java.util.Set;
 
-public abstract class ProtectionAPIEvent extends Event {
+public class IllegalHangingBreakEvent extends HangingEvent {
 
-    private static final HandlerList handlers = new HandlerList();
-    private Player player;
-    private boolean prevented = false;
-    private Set<Region> regionSet;
-    private Event bukkitEvent;
-
-    public ProtectionAPIEvent(Player player, Set<Region> regionSet, Event bukkitEvent) {
-        this.player = player;
-        this.regionSet = regionSet;
-        this.bukkitEvent = bukkitEvent;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Location getLocation() {
-        return player.getLocation();
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public void setPrevented(boolean prevented) {
-        this.prevented = prevented;
-    }
-
-    public boolean isPrevented() {
-        return prevented;
-    }
-
-    public Set<Region> getApplicableRegions() {
-        return regionSet;
-    }
-
-    public Event getRelatedEvent() {
-        return bukkitEvent;
+    public IllegalHangingBreakEvent(Player player, Hanging hanging, Set<Region> regionSet, org.bukkit.event.hanging.HangingEvent bukkitEvent) {
+        super(player, hanging, regionSet, bukkitEvent);
     }
 }

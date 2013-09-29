@@ -26,10 +26,43 @@
 package net.fuzzyblocks.protectionapi.listeners;
 
 import net.fuzzyblocks.protectionapi.ProtectionAPI;
+import net.fuzzyblocks.protectionapi.events.IllegalHangingBreakEvent;
+import net.fuzzyblocks.protectionapi.events.IllegalHangingPlaceEvent;
+import net.fuzzyblocks.protectionapi.region.RegionManager;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingPlaceEvent;
 
 public class HangingListener extends ProtectionAPIListener {
 
+    private RegionManager regionManager;
+
     public HangingListener(ProtectionAPI instance) {
         super(instance);
+        regionManager = instance.getRegionManager();
+    }
+
+    @EventHandler
+    public void onHangingBreak(HangingBreakByEntityEvent event) {
+        Location loc = event.getEntity().getLocation();
+        if (event.getRemover() instanceof Player) {
+            Player player = (Player) event.getRemover();
+            if (!regionManager.canBuildAtPoint(player.getName(), loc)) {
+                IllegalHangingBreakEvent apiEvent = new IllegalHangingBreakEvent(player, event.getEntity(),
+                        regionManager.getRegionsAtPoint(loc), event);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onHangingPlace(HangingPlaceEvent event) {
+        Location loc = event.getEntity().getLocation();
+        Player player = event.getPlayer();
+        if (!regionManager.canBuildAtPoint(player.getName(), loc)) {
+            IllegalHangingPlaceEvent apiEvent = new IllegalHangingPlaceEvent(player, event.getEntity(),
+                    regionManager.getRegionsAtPoint(loc), event);
+        }
     }
 }

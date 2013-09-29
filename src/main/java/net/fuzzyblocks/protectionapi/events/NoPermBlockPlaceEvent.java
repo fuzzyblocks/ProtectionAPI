@@ -31,9 +31,9 @@ import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-public class NoPermBlockPlaceEvent extends ProtectionAPIEvent {
+public class NoPermBlockPlaceEvent extends BlockEvent {
 
-    public NoPermBlockPlaceEvent(Player player, Block block, Set<Region> regions) {
-        super(player, block, regions);
+    public NoPermBlockPlaceEvent(Player player, Block block, Set<Region> regions, org.bukkit.event.block.BlockEvent bukkitEvent) {
+        super(player, block, regions, bukkitEvent);
     }
 }

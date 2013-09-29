@@ -25,10 +25,10 @@
  */
 package net.fuzzyblocks.protectionapi;
 
+import net.fuzzyblocks.protectionapi.events.ProtectionAPIEvent;
 import net.fuzzyblocks.protectionapi.listeners.*;
 import net.fuzzyblocks.protectionapi.region.RegionManager;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ProtectionAPI extends JavaPlugin {
@@ -40,9 +40,6 @@ public class ProtectionAPI extends JavaPlugin {
     public void onEnable() {
         regionManager = new RegionManager(this);
         registerListeners();
-    }
-
-    private void enableMetrics() {
     }
 
     /** Send a debug message from ProtectionAPI to console */
@@ -58,7 +55,7 @@ public class ProtectionAPI extends JavaPlugin {
         return regionManager;
     }
 
-    public void fireEvent(Event event) {
+    public void fireEvent(ProtectionAPIEvent event) {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
