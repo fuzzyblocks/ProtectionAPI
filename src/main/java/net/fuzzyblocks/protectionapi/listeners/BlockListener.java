@@ -26,17 +26,16 @@
 package net.fuzzyblocks.protectionapi.listeners;
 
 import net.fuzzyblocks.protectionapi.ProtectionAPI;
-import net.fuzzyblocks.protectionapi.events.NoPermBlockBreakEvent;
-import net.fuzzyblocks.protectionapi.events.NoPermBlockDamageEvent;
-import net.fuzzyblocks.protectionapi.events.NoPermBlockIgniteEvent;
-import net.fuzzyblocks.protectionapi.events.NoPermBlockPlaceEvent;
+import net.fuzzyblocks.protectionapi.events.IllegalBlockBreakEvent;
+import net.fuzzyblocks.protectionapi.events.IllegalBlockDamageEvent;
+import net.fuzzyblocks.protectionapi.events.IllegalBlockIgniteEvent;
+import net.fuzzyblocks.protectionapi.events.IllegalBlockPlaceEvent;
 import net.fuzzyblocks.protectionapi.region.RegionManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
@@ -61,12 +60,12 @@ public class BlockListener extends ProtectionAPIListener {
         if (damagedBlock.getType() == Material.CAKE_BLOCK) {
             //Check if player can build
             if (!plugin.getRegionManager().canBuildAtPoint(player.getName(), damagedBlock.getLocation())) {
-                NoPermBlockDamageEvent noPermBlockDamageEvent = new NoPermBlockDamageEvent(player, damagedBlock,
+                IllegalBlockDamageEvent illegalBlockDamageEvent = new IllegalBlockDamageEvent(player, damagedBlock,
                         regionManager.getRegionsAtPoint(damagedBlock.getLocation()), event);
-                plugin.fireEvent(noPermBlockDamageEvent);
+                plugin.fireEvent(illegalBlockDamageEvent);
 
                 // This is for the front-end to do.
-                //if (noPermBlockDamageEvent.isPrevented()) {
+                //if (illegalBlockDamageEvent.isPrevented()) {
                 //    event.setCancelled(true);
                 //}
             }
@@ -81,12 +80,12 @@ public class BlockListener extends ProtectionAPIListener {
 
         //Check if player can build
         if (!plugin.getRegionManager().canBuildAtPoint(player.getName(), brokenBlock.getLocation())) {
-            NoPermBlockBreakEvent noPermBlockBreakEvent = new NoPermBlockBreakEvent(player, brokenBlock,
+            IllegalBlockBreakEvent apiEvent = new IllegalBlockBreakEvent(player, brokenBlock,
                     regionManager.getRegionsAtPoint(brokenBlock.getLocation()), event);
-            plugin.fireEvent(noPermBlockBreakEvent);
+            plugin.fireEvent(apiEvent);
 
             // This is for the front-end to do.
-            //if (noPermBlockBreakEvent.isPrevented()) {
+            //if (illegalBlockBreakEvent.isPrevented()) {
             //    event.setCancelled(true);
             //}
         }
@@ -103,12 +102,12 @@ public class BlockListener extends ProtectionAPIListener {
                 && event.getPlayer() != null) {
             //Check if player can build
             if (!plugin.getRegionManager().canBuildAtPoint(event.getPlayer().getName(), ignitedBlock.getLocation())) {
-                NoPermBlockIgniteEvent noPermBlockIgniteEvent = new NoPermBlockIgniteEvent(event.getPlayer(), ignitedBlock,
+                IllegalBlockIgniteEvent apiEvent = new IllegalBlockIgniteEvent(event.getPlayer(), ignitedBlock,
                         regionManager.getRegionsAtPoint(ignitedBlock.getLocation()), event);
-                plugin.fireEvent(noPermBlockIgniteEvent);
+                plugin.fireEvent(apiEvent);
 
                 // This is for the front-end to do.
-                //if (noPermBlockIgniteEvent.isPrevented()) {
+                //if (illegalBlockIgniteEvent.isPrevented()) {
                 //    event.setCancelled(true);
                 //}
             }
@@ -123,12 +122,12 @@ public class BlockListener extends ProtectionAPIListener {
 
         //Check if a player can build
         if (!plugin.getRegionManager().canBuildAtPoint(player.getName(), placedBlock.getLocation())) {
-            NoPermBlockPlaceEvent noPermBlockPlaceEvent = new NoPermBlockPlaceEvent(player, placedBlock,
+            IllegalBlockPlaceEvent apiEvent = new IllegalBlockPlaceEvent(player, placedBlock,
                     regionManager.getRegionsAtPoint(placedBlock.getLocation()), event);
-            plugin.fireEvent(noPermBlockPlaceEvent);
+            plugin.fireEvent(apiEvent);
 
             // This is for the front-end to do.
-            //if (noPermBlockPlaceEvent.isPrevented()) {
+            //if (illegalBlockPlaceEvent.isPrevented()) {
             //    event.setCancelled(true);
             //}
         }

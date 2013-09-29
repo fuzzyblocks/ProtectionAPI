@@ -31,9 +31,10 @@ import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-public class NoPermBlockBreakEvent extends BlockEvent {
+public class IllegalBlockIgniteEvent extends BlockEvent {
 
-    public NoPermBlockBreakEvent(Player player, Block block, Set<Region> regions, org.bukkit.event.block.BlockEvent bukkitEvent) {
+    public IllegalBlockIgniteEvent(Player player, Block block, Set<Region> regions, org.bukkit.event.block.BlockEvent
+            bukkitEvent) {
         super(player, block, regions, bukkitEvent);
     }
 }

@@ -52,6 +52,7 @@ public class HangingListener extends ProtectionAPIListener {
             if (!regionManager.canBuildAtPoint(player.getName(), loc)) {
                 IllegalHangingBreakEvent apiEvent = new IllegalHangingBreakEvent(player, event.getEntity(),
                         regionManager.getRegionsAtPoint(loc), event);
+                plugin.fireEvent(apiEvent);
             }
         }
     }
@@ -63,6 +64,7 @@ public class HangingListener extends ProtectionAPIListener {
         if (!regionManager.canBuildAtPoint(player.getName(), loc)) {
             IllegalHangingPlaceEvent apiEvent = new IllegalHangingPlaceEvent(player, event.getEntity(),
                     regionManager.getRegionsAtPoint(loc), event);
+            plugin.fireEvent(apiEvent);
         }
     }
 }

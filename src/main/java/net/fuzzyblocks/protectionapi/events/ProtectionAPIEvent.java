@@ -28,18 +28,18 @@ package net.fuzzyblocks.protectionapi.events;
 
 import net.fuzzyblocks.protectionapi.region.Region;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import java.util.Set;
 
-public abstract class ProtectionAPIEvent extends Event {
+public abstract class ProtectionAPIEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private Player player;
-    private boolean prevented = false;
+    private boolean cancelled = false;
     private Set<Region> regionSet;
     private Event bukkitEvent;
 
@@ -65,12 +65,12 @@ public abstract class ProtectionAPIEvent extends Event {
         return handlers;
     }
 
-    public void setPrevented(boolean prevented) {
-        this.prevented = prevented;
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
-    public boolean isPrevented() {
-        return prevented;
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     public Set<Region> getApplicableRegions() {
